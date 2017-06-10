@@ -13,8 +13,12 @@
 #ifndef MINISHELL_H_
 # define MINISHELL_H_
 
-#include <string.h>
-#include <stdio.h>
+# include <string.h>
+# include <stdio.h>
+# include <sys/types.h>
+# include <dirent.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 # define NO_HOME "cd: No HOME found"
 # define SETENV		"setenv"
@@ -70,7 +74,8 @@ char	*strjoin(char const *s1, char const *s2);
 char	*strnew(size_t size);
 
 /* my_cd.c */
-int	my_cd(char **av, char **env, int ref);
+int	my_cd(char **av, char **env);
+char    *ft_getenv(char **env, char *to_find);
 
 /* main.c */
 int	len(char *str);

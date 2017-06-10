@@ -40,7 +40,7 @@ int	next_check(char **s, char ***envcpy, int y)
 	else if (my_strcmp(UNSETENV, s[0]) == 0)
 		y = remove_env(tmp, s);
 	else if (my_strcmp(CD, s[0]) == 0)
-		y = my_cd(s, tmp, 0);
+		y = my_cd(s, tmp);
 	else if (my_strcmp(EXIT, s[0]) == 0)
 		exit(0);
 	else if (my_strncmp(s[0], "./", 2) == 0 || my_strncmp(s[0], "/", 1) == 0

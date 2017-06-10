@@ -10,105 +10,122 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "minishell.h"
 
-static char	*find_where_start(char **env)
-{
-	int		i;
-
-	i = 0;
-	while (env[i] && my_strncmp(env[i], "PWD=", 4) != 0)
-		++i;
-	if (env[i] == NULL)
-		return (NULL);
-	return (strdup(env[i] + 4));
-}
-
-
-static char		*find_home(char **env)
+static int		find_in_env(char **env, char *to_find)
 {
 	int	i;
 
 	i = 0;
 	while (env[i])
 	{
-		if (strncmp(env[i], "HOME=", 5) == 0)
-			return (env[i] + 5);
+	  if (strncmp(env[i], to_find, strlen(to_find)) == 0)
+	    return (i);
 		++i;
 	}
-	return ("./");
+	return (-1);
 }
 
-char	*no_leaks_cd(char **old, char **env, char *av, int i)
+char *ft_getenv(char **env, char *to_find)
 {
-	char *path;
-	char *tmp;
+  int i;
 
-	if (old)
-		{
-			free(*old);
-			*old = strdup(env[i] + 7);
-		}
-	else
+  i = 0;
+  while (env[i])
+    {
+      if (strncmp(env[i], to_find, strlen(to_find)) == 0)
+	return (strdup(env[i] + strlen(to_find)));
+      ++i;
+    }
+  return (NULL);
+}
+
+static int	cd_normal(char *av, char **env, int ref_pwd, int ref_oldpwd)
+{
+  char buff[1000];
+
+  if (ref_pwd == -1)
+    return (printf("cd : no pwd in env\n"));
+  if (ref_oldpwd == -1)
+    return (printf("cd : no oldpwd in env\n"));
+  free(env[ref_oldpwd]);
+  free(env[ref_pwd]);
+  env[ref_oldpwd] = strjoin("OLDPWD=", getcwd(buff, 1000));
+  if (chdir(av) == -1)
+    return (-1);
+  env[ref_pwd] = strjoin("PWD=", getcwd(buff, 1000));
+  return (0);
+}
+
+int     cd_back(char **env, int ref_pwd, int ref_oldpwd)
+{
+  char *tmp;
+  char buff[1000];
+
+  if (ref_pwd == -1)
+    return (printf("cd -: no PWD in env\n"));
+  if (ref_oldpwd == -1)
+    {
+      printf("cd -: no OLDPWD in env\n");
+      return (-1);
+    }
+  tmp = ft_getenv(env, "OLDPWD=");
+  if (opendir(tmp) == NULL)
+    {
+      printf("cd -: fail of OLDPWD in env\n");
+      free(env[ref_oldpwd]);
+      env[ref_oldpwd] = strjoin("OLDPWD=", getcwd(buff, 1000));
+      return (-1);
+    }
+  free(env[ref_oldpwd]);
+  env[ref_oldpwd] = strjoin("OLDPWD=", getcwd(buff, 1000));
+  if (chdir(tmp) == -1)
+    return (-1);
+  free(env[ref_pwd]);
+  env[ref_pwd] = strjoin("PWD=", getcwd(buff, 1000));
+  return (0);
+}
+
+int cd_home(char **env, int pwd, int oldpwd)
+{
+  char buff[1000];
+
+  if (pwd == -1)
+    return (printf("cd : no PWD in env\n"));
+  if (oldpwd == -1)
+    return (printf("cd : no oldpwd in env\n"));
+  if (find_in_env(env, "HOME=") == -1)
+    {
+      printf("cd : no HOME directory\n");
+      return (-1);
+    }
+  if (opendir(ft_getenv(env, "HOME=")))
+    {
+      free(env[oldpwd]);
+      env[oldpwd] = strjoin("OLDPWD=", getcwd(buff, 1000));
+      if (chdir(ft_getenv(env, "HOME=")) == 0)
 	{
-		free(env[i]);
-		if (!(env[i] = strjoin("OLDPWD=", find_where_start(env))))
-			env[i] = strdup("OLDPWD=");
+	  free(env[pwd]);
+	  env[pwd] = strjoin("PWD=", getcwd(buff, 1000));
+	  return (0);
 	}
-		tmp = strjoin(env[i], "/");
-		path = strjoin(tmp, av);
-		free(tmp);
-		return (path);
+    }
+  printf("cd : HOME directory in env fail\n");
+  return (-1);
 }
 
-static void 	cd_back(char **old, char *av, char **env)
+int		my_cd(char **argv, char **env)
 {
-	int	i;
-	char	*tmp;
-
-	i = 0;
-	while (env[i])
-	{
-		if (strncmp(env[i], "OLDPWD=", 7) == 0)
-		{
-			tmp = no_leaks_cd(old, env, av, i);
-			break ;
-		}
-		++i;
-	}
-	if (env[i] == NULL)
-		return ;
-	free(env[i]);
-	if (av[0] != '/')
-		env[i] = tmp;
-	else if (av[0] == '/')
-		env[i] = strjoin("OLDPWD=", av);
-}
-
-int		my_cd(char **argv, char **env, int ref)
-{
-	static char *old;
-
 	if (argv[1] == NULL)
-		ref = chdir(find_home(env));
+	  return (cd_home(env, find_in_env(env, "PWD="), find_in_env(env, "OLDPWD=")));
 	else if (my_strcmp("-", argv[1]) == 0)
-	{
-		if (old == NULL)
-			return (printf("%s: %s\n", argv[1], NOT_DIR));
-		else
-			ref = chdir(old);
-			printf("%s\n", old);
-	}
+	  return (cd_back(env, find_in_env(env, "PWD="), find_in_env(env, "OLDPWD=")));
 	else if (my_strcmp("--", argv[1]) == 0)
-		return (0);
-	else if (chdir(argv[1]) == 0)
-		cd_back(&old, argv[1], env);
+	  return (0);
+	else if (opendir(argv[1]))
+	  return (cd_normal(argv[1], env, find_in_env(env, "PWD="),
+			    find_in_env(env, "OLDPWD=")));
 	else
-		return (printf("%s: %s\n", argv[1], NOT_DIR));
-	if (ref == -1)
-		return (printf("%s\n", NO_HOME));
+	  return (printf("%s: %s\n", argv[1], NOT_DIR));
 	return (0);
 }
