@@ -46,14 +46,13 @@ static int	cd_normal(char *av, char **env, int ref_pwd, int ref_oldpwd)
 
   if (ref_pwd == -1)
     return (printf("cd : no pwd in env\n"));
-  if (ref_oldpwd != -1)
-    {
-      free(env[ref_oldpwd]);
-      env[ref_oldpwd] = strjoin("OLDPWD=", getcwd(buff, 1000));
-    }
+  if (ref_oldpwd == -1)
+    return (printf("cd : no oldpwd in env\n"));
+  free(env[ref_oldpwd]);
+  free(env[ref_pwd]);
+  env[ref_oldpwd] = strjoin("OLDPWD=", getcwd(buff, 1000));
   if (chdir(av) == -1)
     return (-1);
-  free(env[ref_pwd]);
   env[ref_pwd] = strjoin("PWD=", getcwd(buff, 1000));
   return (0);
 }

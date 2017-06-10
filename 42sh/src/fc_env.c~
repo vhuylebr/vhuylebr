@@ -109,7 +109,6 @@ int	remove_env(char **envcpy, char **s)
 	}
 	if (envcpy[i] == NULL)
 		return (0);
-	free(envcpy[i]);
 	while (envcpy[i + 1])
 	{
 		envcpy[i] = envcpy[i + 1];
