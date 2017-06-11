@@ -105,7 +105,7 @@ int	exe(char **s, char ***env, int y, int path_y)
 	char	**envcpy;
 
 	envcpy = *env;
-	if (s[0] == NULL)
+	if (s == NULL)
 		return (0);
 	if (path_y == -1)
 	{
