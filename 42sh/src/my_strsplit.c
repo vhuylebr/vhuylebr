@@ -91,7 +91,7 @@ char	**my_parseur(char *str, int mot, int i)
 	char	**tab;
 	int	len;
 
-	if (mot == -1)
+	if (mot <= 0)
 		return (NULL);
 	if (!str || !(tab = (char **)malloc(sizeof(char*) * (mot + 1))))
 		return (NULL);

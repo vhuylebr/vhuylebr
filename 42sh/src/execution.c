@@ -70,6 +70,8 @@ char	**env_exe(char **PATH, char **s, char **envcpy)
 
 	i = 0;
 	pid = 0;
+	if (s[0][0] == '\0')
+	  return (NULL);
 	while (PATH[i])
 	{
 		PATH[i] = strcat(PATH[i], "/");

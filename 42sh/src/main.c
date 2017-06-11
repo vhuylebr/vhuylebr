@@ -74,23 +74,20 @@ int	main(int ac, char **av, char **env)
 	env = tab_cpy(env);
 	while (get_next_line(0, &s) > 0)
 	{
-		if (s[0] != '\0')
+	  str = my_strsplit2(s, ';', ft_n(s, ';'), 0);
+	  if (str)
+	    {
+	      while (str[i])
 		{
-			str = my_strsplit2(s, ';', ft_n(s, ';'), 0);
-			if (str)
-			{
-				while (str[i])
-				{
-					k = exe(my_parseur(str[i], count_parse(str[i]), 0), &env, 0,
-							find(env, "PATH="));
-							++i;
-						}
-				free_tab(str, NULL);
-			}
+		  k = exe(my_parseur(str[i], count_parse(str[i]), 0), &env, 0,
+			  find(env, "PATH="));
+		  ++i;
 		}
-		write(1, PROMPT2, 6);
-		free(s);
-		i = 0;
+	      free_tab(str, NULL);
+	    }
+	  write(1, PROMPT2, 6);
+	  free(s);
+	  i = 0;
 	}
 	free_tab(env, NULL);
 	return (k);
