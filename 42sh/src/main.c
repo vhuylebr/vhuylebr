@@ -47,7 +47,11 @@ int	next_check(char **s, char ***envcpy, int y)
 			|| my_strncmp(s[0], "~", 1) == 0)
 		y = exe_file(s, tmp);
 	else
+	  {
+	    free_tab(*envcpy, NULL);
+	    *envcpy = tmp;
 		return (printf("%s: %s\n", s[0], BAD_COM));
+	  }
 	free_tab(*envcpy, NULL);
 	*envcpy = tmp;
 	return (y);

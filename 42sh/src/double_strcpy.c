@@ -54,7 +54,7 @@ int	find(char **envcpy, char *str)
   x = 0;
   while (envcpy[y])
     {
-      if (my_strncmp(envcpy[y], str, len(str)) == 0)
+      if (my_strncmp(envcpy[y], str, strlen(str)) == 0)
 	return (y);
       ++y;
     }

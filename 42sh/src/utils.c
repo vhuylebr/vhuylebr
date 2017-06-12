@@ -1,12 +1,3 @@
-/*
-** utils.c for 42sh in /home/vhuylebr/rendu/CPool_Day07
-**
-** Made by valerian huylebroeck
-** Login   <vhuylebr@epitech.net>
-**
-** Started on  Tue Oct 11 08:16:49 2016 valerian huylebroeck
-** Last update Wed May 17 14:28:32 2017 Leandro Braga
-*/
 
 #include <stdlib.h>
 #include "minishell.h"
