@@ -6,7 +6,7 @@
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 10:49:45 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/16 20:30:33 by vhuylebr         ###   ########.fr       */
+/*   Updated: 2017/06/19 18:07:35 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,26 @@ typedef struct	s_cd_back
 	char		*tmp;
 	char		buff[1000];
 }				t_cd_back;
+
+/*
+** ft_getchar_fd.c
+*/
+
+int				ft_getchar_fd(int fd);
+
+/*
+** delete_and_add.c
+*/
+
+int	ft_delete(char **s, int i);
+int				add_char_to_str(char **s, int k, char c);
+
+/*
+** edit_line.c
+*/
+
+int				ft_set_stage(struct termios *term);
+char			*edit_line(char **env);
 
 /*
 ** bonus_cd.c

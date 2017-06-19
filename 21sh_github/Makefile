@@ -6,7 +6,7 @@
 #    By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/14 17:18:06 by vhuylebr          #+#    #+#              #
-#    Updated: 2017/06/16 20:36:32 by vhuylebr         ###   ########.fr        #
+#    Updated: 2017/06/19 12:58:44 by vhuylebr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,10 @@ SRCS	=	src/get_next_line.c	\
 		src/ft_printf.c		\
 		src/ft_putnbr_fd.c	\
 		src/bonus_cd.c		\
-		src/print_prompt.c
+		src/print_prompt.c	\
+		src/edit_line.c	\
+		src/ft_getchar_fd.c \
+		src/delete.c
 
 OBJS	=	$(SRCS:.c=.o)
 

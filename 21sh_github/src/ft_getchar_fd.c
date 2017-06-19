@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sigft.c                                            :+:      :+:    :+:   */
+/*   ft_getchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/16 11:04:38 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/19 17:09:25 by vhuylebr         ###   ########.fr       */
+/*   Created: 2017/06/19 17:24:02 by vhuylebr          #+#    #+#             */
+/*   Updated: 2017/06/19 17:26:51 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ctrl_c(int sign)
+int		ft_getchar_fd(int fd)
 {
-	(void)sign;
-	write(1, "\n$>", 3);
-}
+	char	c;
 
-void		sigft(int sig, char **env)
-{
-	if (!isatty(0))
-	{
-		ft_printf(2, "This shell needs a stdin terminal connected.", -1);
-		exit(1);
-	}
-	if (sig == 12)
-	{
-		ft_putstr("\033[H\033[2J");
-		print_prompt(env);
-	}
-	signal(SIGINT, &ctrl_c);
+	if (1 != read(fd, &c, 1))
+		return (-1);
+	return ((int)c);
 }
