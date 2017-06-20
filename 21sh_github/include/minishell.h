@@ -6,7 +6,7 @@
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/08 10:49:45 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/19 18:07:35 by vhuylebr         ###   ########.fr       */
+/*   Updated: 2017/06/19 18:13:14 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int				ft_getchar_fd(int fd);
 ** delete_and_add.c
 */
 
-int	ft_delete(char **s, int i);
+int				ft_delete(char **s, int i);
 int				add_char_to_str(char **s, int k, char c);
 
 /*
