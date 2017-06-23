@@ -20,7 +20,9 @@ SRCS	= main.c \
 	key.c \
 	key2.c \
 	select_del_list.c \
-	moves.c
+	moves.c \
+	header42.c \
+	term.c
 
 OBJS	=	$(SRCS:.c=.o)
 

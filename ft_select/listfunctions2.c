@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   listfunctions2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/06/23 17:37:25 by vhuylebr          #+#    #+#             */
+/*   Updated: 2017/06/23 17:38:01 by vhuylebr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_select.h"
 
@@ -7,7 +17,7 @@ t_clist	*ft_del_lst_item(t_clist **old, t_clist *item)
 	t_clist	*tmpprev;
 	t_clist	*tmpnext;
 
-	if ((!(item->next)||!(item->prev)))
+	if ((!(item->next) || !(item->prev)))
 	{
 		tmpnext = ft_del_start_end(old, item);
 		return (tmpnext);
