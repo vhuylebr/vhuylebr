@@ -1,0 +1,40 @@
+CC	=	gcc
+
+RM	=	rm -f
+
+CFLAGS	+=	-Wall -Werror -Wextra -I include/
+
+NAME	=	ft_select
+
+SRCS	= main.c \
+		signal.c \
+	listfunctions.c \
+	listfunctions2.c \
+	ft_strdup.c \
+	ft_strlen.c \
+	print.c \
+	print2.c \
+	ft_putstr_fd.c \
+	ft_strnew.c \
+	ft_bzero.c \
+	key.c \
+	key2.c \
+	select_del_list.c \
+	moves.c
+
+OBJS	=	$(SRCS:.c=.o)
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) -o $(NAME) $(CFLAGS) -lncurses
+
+clean:
+	$(RM) $(OBJS)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
