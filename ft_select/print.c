@@ -67,7 +67,6 @@ void			ft_print_item(t_clist *item)
 void			ft_print_all(t_window *size, t_clist **list)
 {
 	t_clist	*lst;
-	int		tabs;
 	int		i;
 
 	i = 0;
@@ -75,7 +74,6 @@ void			ft_print_all(t_window *size, t_clist **list)
 	i = print_header(size);
 	ft_fill_struct_window(size, list);
 	lst = *list;
-	tabs = size->arg_printed;
 	while (lst->next != NULL)
 	{
 		ft_print_item(lst);

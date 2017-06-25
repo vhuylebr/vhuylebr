@@ -8,8 +8,8 @@ NAME	=	ft_select
 
 SRCS	= main.c \
 		signal.c \
-	listfunctions.c \
-	listfunctions2.c \
+	fc_list.c \
+	fc_list2.c \
 	ft_strdup.c \
 	ft_strlen.c \
 	print.c \
@@ -19,7 +19,7 @@ SRCS	= main.c \
 	ft_bzero.c \
 	key.c \
 	key2.c \
-	select_del_list.c \
+	delete_select_list.c \
 	moves.c \
 	header42.c \
 	term.c

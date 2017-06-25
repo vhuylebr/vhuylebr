@@ -77,7 +77,7 @@ int				input(t_window *size,
 			item = ft_select(size, list, item);
 		if (is_bspace(read_char) || is_del(read_char))
 			item = ft_del_item(size, list, item);
-		if (is_esc(read_char) || size->listcount == 0)
+		if (is_esc(read_char) || item == NULL)
 			return (0);
 		if (is_sig(read_char))
 			ft_refresh(size, list, term);
@@ -107,6 +107,7 @@ int				main(int argc, char **argv)
 		return (1);
 	}
 	ft_unset_term(&term);
-	ft_list_del(&list);
+	if (list != NULL)
+	  ft_list_del(&list);
 	return (0);
 }
