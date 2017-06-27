@@ -17,9 +17,9 @@ int				ft_unset_term(struct termios *term)
 	term->c_lflag |= ICANON;
 	term->c_lflag |= ECHO;
 	tcsetattr(0, 0, term);
-	ft_putstr_fd(tgetstr("me", NULL), 1);
-	ft_putstr_fd(tgetstr("cl", NULL), 1);
-	ft_putstr_fd(tgetstr("ve", NULL), 1);
+	ft_putstr_fd(tgetstr("me", NULL), FD);
+	ft_putstr_fd(tgetstr("cl", NULL), FD);
+	ft_putstr_fd(tgetstr("ve", NULL), FD);
 	return (1);
 }
 
@@ -35,6 +35,6 @@ int				ft_set_term(struct termios *term)
 	term->c_cc[VMIN] = 1;
 	term->c_cc[VTIME] = 0;
 	tcsetattr(0, 0, term);
-	ft_putstr_fd(tgetstr("vi", NULL), 1);
+	ft_putstr_fd(tgetstr("vi", NULL), 2);
 	return (1);
 }

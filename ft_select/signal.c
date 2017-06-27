@@ -45,9 +45,9 @@ void	ctrl_c(int i)
 	term.c_lflag |= ICANON;
 	term.c_lflag |= ECHO;
 	tcsetattr(0, 0, &term);
-	ft_putstr_fd(tgetstr("me", NULL), 1);
-	ft_putstr_fd(tgetstr("cl", NULL), 1);
-	ft_putstr_fd(tgetstr("ve", NULL), 1);
+	ft_putstr_fd(tgetstr("me", NULL), FD);
+	ft_putstr_fd(tgetstr("cl", NULL), FD);
+	ft_putstr_fd(tgetstr("ve", NULL), FD);
 	exit(0);
 }
 

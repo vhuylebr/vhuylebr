@@ -6,7 +6,7 @@
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 17:18:06 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/23 17:26:03 by vhuylebr         ###   ########.fr       */
+/*   Updated: 2017/06/27 12:58:35 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,55 +26,52 @@ int				num_col_needed(t_window *size, t_clist **list)
 
 static int		ft_fill_struct_window(t_window *size, t_clist **list)
 {
-  t_clist *tmp;
-  int	i;
+	t_clist	*tmp;
+	int		i;
 
-  i = 1;
+	i = 1;
 	ft_get_size(size);
 	size->tab_counter = 1;
 	size->arg_printed = 0;
-	size->num_tab = num_col_needed(size, list);
+	//size->num_tab = num_col_needed(size, list);
 	size->max_len = ft_maxlen(list);
-	size->items_per_tab = size->listcount / size->num_tab + 1;
+	//size->lsts_per_tab = size->listcount / size->num_tab + 1;
 	if (size->co <= (size->max_len + 2) * size->num_tab)
-	  {
-	    tmp = *list;
-	    while (tmp->is_cursor == 0)
-	      {
-		++i;
-		tmp = tmp->next;
-	      }
-	    return (i / size->li * size->li);
-	    /*		ft_putstr_fd(tgetstr("cl", NULL), 1);*/
-		ft_get_size(size);
-		/*size->num_tab = num_col_needed(size, list);*/
+	{
+		tmp = *list;
+		while (tmp->is_cursor == 0)
+		{
+			++i;
+			tmp = tmp->next;
+		}
+		return ((i / size->li * size->li) - ((i / size->li * size->li) %
+					(size->co / (size->max_len + 2) * size->li)));
 	}
 	return (0);
-	
 }
 
-void			ft_print_item(t_clist *item)
+void			ft_print_lst(t_clist *cursor)
 {
 	struct stat	filestat;
 
-	if (item->is_cursor)
-		ft_putstr_fd(tgetstr("us", NULL), 1);
-	if (item->is_selected)
-		ft_putstr_fd(tgetstr("mr", NULL), 1);
-	if (lstat(item->str, &filestat) >= 0)
+	if (cursor->is_cursor)
+		ft_putstr_fd(tgetstr("us", NULL), FD);
+	if (cursor->is_selected)
+		ft_putstr_fd(tgetstr("mr", NULL), FD);
+	if (lstat(cursor->str, &filestat) >= 0)
 	{
-		ft_putstr_fd(C_BOLD, 1);
-		S_ISBLK(filestat.st_mode) ? ft_putstr_fd(C_RED, 1) : NULL;
-		S_ISCHR(filestat.st_mode) ? ft_putstr_fd(C_BLUE, 1) : NULL;
-		S_ISDIR(filestat.st_mode) ? ft_putstr_fd(C_CYAN, 1) : NULL;
-		S_ISFIFO(filestat.st_mode) ? ft_putstr_fd(C_BROWN, 1) : NULL;
-		S_ISLNK(filestat.st_mode) ? ft_putstr_fd(C_GREEN, 1) : NULL;
-		S_ISSOCK(filestat.st_mode) ? ft_putstr_fd(C_MAGENTA, 1) : NULL;
-		ft_putstr_fd(item->str, 1);
+		ft_putstr_fd(C_BOLD, FD);
+		S_ISBLK(filestat.st_mode) ? ft_putstr_fd(C_RED, FD) : NULL;
+		S_ISCHR(filestat.st_mode) ? ft_putstr_fd(C_BLUE, FD) : NULL;
+		S_ISDIR(filestat.st_mode) ? ft_putstr_fd(C_CYAN, FD) : NULL;
+		S_ISFIFO(filestat.st_mode) ? ft_putstr_fd(C_BROWN, FD) : NULL;
+		S_ISLNK(filestat.st_mode) ? ft_putstr_fd(C_GREEN, FD) : NULL;
+		S_ISSOCK(filestat.st_mode) ? ft_putstr_fd(C_MAGENTA, FD) : NULL;
+		ft_putstr_fd(cursor->str, FD);
 	}
 	else
-		ft_putstr_fd(item->str, 1);
-	ft_putstr_fd(tgetstr("me", NULL), 1);
+		ft_putstr_fd(cursor->str, FD);
+	ft_putstr_fd(tgetstr("me", NULL), FD);
 }
 
 void			ft_print_all(t_window *size, t_clist **list)
@@ -84,16 +81,15 @@ void			ft_print_all(t_window *size, t_clist **list)
 	int		start;
 
 	i = 0;
-	ft_putstr_fd(tgetstr("cl", NULL), 1);
+	ft_putstr_fd(tgetstr("cl", NULL), FD);
 	i = print_header(size);
 	start = ft_fill_struct_window(size, list);
 	lst = *list;
-	if (start > 2 * size->li)
-	  while (--start > 0)
-	    lst = lst->next;
-	while (lst->next != NULL && size->tab_counter < size->co)
+	while (--start > 0)
+		lst = lst->next;
+	while (lst != NULL && size->tab_counter + size->max_len + 2 < size->co)
 	{
-		ft_print_item(lst);
+		ft_print_lst(lst);
 		size->arg_printed++;
 		if (size->arg_printed + 1 > size->li)
 		{
@@ -101,8 +97,7 @@ void			ft_print_all(t_window *size, t_clist **list)
 			size->arg_printed = 0;
 		}
 		ft_putstr_fd(tgoto(GET_CM, size->tab_counter - 1,
-					size->arg_printed + i), 1);
+					size->arg_printed + i), FD);
 		lst = lst->next;
 	}
-	//	ft_print_item(lst);
 }

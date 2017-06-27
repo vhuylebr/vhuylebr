@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   listfunctions.c                                    :+:      :+:    :+:   */
+/*   fc_list.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/23 17:38:08 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/23 17:38:25 by vhuylebr         ###   ########.fr       */
+/*   Created: 2017/06/27 12:59:38 by vhuylebr          #+#    #+#             */
+/*   Updated: 2017/06/27 13:00:03 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_clist	*ft_clstnew(char *str)
 		newlist->str = ft_strdup(str);
 	newlist->next = NULL;
 	newlist->prev = NULL;
+	newlist->is_selected = 0;
+	newlist->is_cursor = 0;
 	return (newlist);
 }
 

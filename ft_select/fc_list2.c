@@ -1,77 +1,76 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fc_list2.c                                   :+:      :+:    :+:   */
+/*   fc_list2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/23 17:37:25 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/23 17:38:01 by vhuylebr         ###   ########.fr       */
+/*   Created: 2017/06/27 13:00:15 by vhuylebr          #+#    #+#             */
+/*   Updated: 2017/06/27 13:00:56 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_clist	*ft_del_lst_item(t_clist **old, t_clist *item)
+t_clist	*ft_del_lst_cursor(t_clist **old, t_clist *cursor)
 {
 	t_clist	*tmpprev;
 	t_clist	*tmpnext;
 
-	if ((!(item->next) || !(item->prev)))
+	if ((!(cursor->next) || !(cursor->prev)))
 	{
-		tmpnext = ft_del_start_end(old, item);
+		tmpnext = ft_del_start_end(old, cursor);
 		return (tmpnext);
 	}
-	tmpnext = item->next;
-	tmpprev = item->prev;
+	tmpnext = cursor->next;
+	tmpprev = cursor->prev;
 	tmpprev->next = tmpnext;
 	tmpnext->prev = tmpprev;
-	free(item->str);
-	free(item);
-	item = NULL;
+	free(cursor->str);
+	free(cursor);
+	cursor = NULL;
 	return (tmpnext);
 }
 
-t_clist	*ft_del_start_end(t_clist **old, t_clist *item)
+t_clist	*ft_del_start_end(t_clist **old, t_clist *cursor)
 {
 	t_clist	*tmp;
 
-	if (item->next == NULL && item->prev == NULL)
+	if (cursor->next == NULL && cursor->prev == NULL)
 	{
-	  //tmp = ft_clstnew("");
-	  tmp = NULL;
+		tmp = NULL;
 		ft_list_del(old);
 		*old = tmp;
 	}
-	else if (item->next)
+	else if (cursor->next)
 	{
-		tmp = item->next;
+		tmp = cursor->next;
 		tmp->prev = NULL;
-		free(item->str);
-		free(item);
+		free(cursor->str);
+		free(cursor);
 		*old = tmp;
 	}
 	else
 	{
-		tmp = item->prev;
+		tmp = cursor->prev;
 		tmp->next = NULL;
-		free(item->str);
-		free(item);
+		free(cursor->str);
+		free(cursor);
 		return (list_start(tmp));
 	}
 	return (tmp);
 }
 
-t_clist	*list_end(t_clist *item)
+t_clist	*list_end(t_clist *cursor)
 {
-	while (item->next)
-		item = item->next;
-	return (item);
+	while (cursor->next)
+		cursor = cursor->next;
+	return (cursor);
 }
 
-t_clist	*list_start(t_clist *item)
+t_clist	*list_start(t_clist *cursor)
 {
-	while (item->prev)
-		item = item->prev;
-	return (item);
+	while (cursor->prev)
+		cursor = cursor->prev;
+	return (cursor);
 }

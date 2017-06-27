@@ -6,7 +6,7 @@
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 17:13:59 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/23 17:17:45 by vhuylebr         ###   ########.fr       */
+/*   Updated: 2017/06/27 13:33:30 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,26 @@ int				input(t_window *size,
 {
 	char		*str;
 	int			direction;
-	t_clist		*item;
+	t_clist		*cursor;
 
-	item = *list;
+	cursor = *list;
 	str = ft_strnew(5);
 	while (!(is_return(str)))
 	{
 		ft_bzero(str, sizeof(str));
 		read(0, str, 5);
 		if ((direction = is_arrow(str)))
-			item = what_arrow(direction, size, list, item);
+			cursor = what_arrow(direction, size, list, cursor);
 		if (is_space(str))
-			item = ft_select(size, list, item);
+			cursor = ft_select(size, list, cursor);
 		if (is_bspace(str) || is_del(str))
-			item = ft_del_item(size, list, item);
-		if (is_esc(str) || item == NULL)
+			cursor = ft_del_cursor(size, list, cursor);
+		if (is_esc(str) || cursor == NULL)
 			return (0);
 		if (is_sig(str))
 			ft_refresh(size, list, term);
-		if ((str[0] <= 'Z' && str[0] >= 'A') ||
-		    (str[0] <= 'z' && str[0] >= 'a'))
-		  item = go_to_letter(str[0], size, list, item);
+		if (str[0] < 127 && str[0] > 32)
+			cursor = go_to_letter(str[0], size, list, cursor);
 	}
 	free(str);
 	return (1);
@@ -97,7 +96,8 @@ int				main(int argc, char **argv)
 
 	if (argc == 1)
 		return (0);
-	if ((!ft_set_term(&term)) || (!ft_get_size(&size)))
+	if ((!ft_set_term(&term)) || (!ft_get_size(&size)) ||
+			open("/dev/tty", O_WRONLY) != 3)
 		return (-1);
 	ft_signals();
 	list = ft_get_list(argv);
@@ -111,6 +111,6 @@ int				main(int argc, char **argv)
 	}
 	ft_unset_term(&term);
 	if (list != NULL)
-	  ft_list_del(&list);
+		ft_list_del(&list);
 	return (0);
 }

@@ -6,106 +6,86 @@
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 17:22:12 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/23 17:22:29 by vhuylebr         ###   ########.fr       */
+/*   Updated: 2017/06/27 12:45:14 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_select.h"
 
-t_clist *go_to_letter(char c, t_window *size, t_clist **list, t_clist *item)
+t_clist	*ft_move_up(t_window *size, t_clist **list, t_clist *cursor)
 {
-  if(item->str[0] != c)
-    item = *list;
-  else
-    item->is_cursor = 0;
-  while (item->next)
-    {
-      item = item->next;
-      if (item->str[0] == c)
-	{
-	  item->is_cursor = 1;
-	  ft_get_size(size);
-	  ft_print_all(size, list);
-	  return (item);
-	}
-    }
-  return (item);
-}
-
-t_clist	*ft_move_up(t_window *size, t_clist **list, t_clist *item)
-{
-	item->is_cursor = 0;
-	if (item->prev)
-		item = item->prev;
+	cursor->is_cursor = 0;
+	if (cursor->prev)
+		cursor = cursor->prev;
 	else
 	{
-		while (item->next)
-			item = item->next;
+		while (cursor->next)
+			cursor = cursor->next;
 	}
-	item->is_cursor = 1;
+	cursor->is_cursor = 1;
 	ft_get_size(size);
 	ft_print_all(size, list);
-	return (item);
+	return (cursor);
 }
 
-t_clist	*ft_move_down(t_window *size, t_clist **list, t_clist *item)
+t_clist	*ft_move_down(t_window *size, t_clist **list, t_clist *cursor)
 {
-	item->is_cursor = 0;
-	if (item->next)
-		item = item->next;
+	cursor->is_cursor = 0;
+	if (cursor->next)
+		cursor = cursor->next;
 	else
 	{
-		while (item->prev)
-			item = item->prev;
+		while (cursor->prev)
+			cursor = cursor->prev;
 	}
-	item->is_cursor = 1;
+	cursor->is_cursor = 1;
 	ft_get_size(size);
 	ft_print_all(size, list);
-	return (item);
+	return (cursor);
 }
 
-t_clist	*ft_move_left(t_window *size, t_clist **list, t_clist *item)
+t_clist	*ft_move_left(t_window *size, t_clist **list, t_clist *cursor)
 {
 	int	i;
 
 	i = 0;
-	item->is_cursor = 0;
-	while (i < size->items_per_tab)
+	cursor->is_cursor = 0;
+	while (i < size->li)
 	{
-		if (item->prev)
-			item = item->prev;
+		if (cursor->prev)
+			cursor = cursor->prev;
 		else
 		{
-			while (item->next)
-				item = item->next;
+			while (cursor->next)
+				cursor = cursor->next;
 		}
 		i++;
 	}
-	item->is_cursor = 1;
+	cursor->is_cursor = 1;
 	ft_get_size(size);
 	ft_print_all(size, list);
-	return (item);
+	return (cursor);
 }
 
-t_clist	*ft_move_right(t_window *size, t_clist **list, t_clist *item)
+t_clist	*ft_move_right(t_window *size, t_clist **list, t_clist *cursor)
 {
 	int	i;
 
 	i = 0;
-	item->is_cursor = 0;
-	while (i < size->items_per_tab)
+	cursor->is_cursor = 0;
+	while (i < size->li)
 	{
-		if (item->next)
-			item = item->next;
+		if (cursor->next)
+			cursor = cursor->next;
 		else
 		{
-			while (item->prev)
-				item = item->prev;
+			while (cursor->prev)
+				cursor = cursor->prev;
 		}
 		i++;
 	}
-	item->is_cursor = 1;
+	cursor->is_cursor = 1;
 	ft_get_size(size);
 	ft_print_all(size, list);
-	return (item);
+	return (cursor);
 }

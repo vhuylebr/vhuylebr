@@ -17,8 +17,8 @@ int		print_header(t_window *size)
 	if (size->co > 62 && size->li > 11 + size->listcount)
 	{
 		size->arg_printed = size->arg_printed + 11;
-		ft_putstr_fd(C_GREEN, 1);
-		ft_putstr_fd(C_BOLD, 1);
+		ft_putstr_fd(C_GREEN, 2);
+		ft_putstr_fd(C_BOLD, 2);
 		ft_putstr_fd(LINE1, 2);
 		ft_putstr_fd(LINE2, 2);
 		ft_putstr_fd(LINE3, 2);
@@ -30,7 +30,7 @@ int		print_header(t_window *size)
 		ft_putstr_fd(LINE9, 2);
 		ft_putstr_fd(LINEA, 2);
 		ft_putstr_fd(LINEB, 2);
-		ft_putstr_fd(C_NONE, 1);
+		ft_putstr_fd(C_NONE, 2);
 		return (11);
 	}
 	return (0);

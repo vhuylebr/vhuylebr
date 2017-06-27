@@ -22,7 +22,8 @@ SRCS	= main.c \
 	delete_select_list.c \
 	moves.c \
 	header42.c \
-	term.c
+	term.c \
+	bonus_letter.c
 
 OBJS	=	$(SRCS:.c=.o)
 

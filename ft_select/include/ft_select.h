@@ -6,7 +6,7 @@
 /*   By: vhuylebr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/23 17:26:11 by vhuylebr          #+#    #+#             */
-/*   Updated: 2017/06/23 17:37:12 by vhuylebr         ###   ########.fr       */
+/*   Updated: 2017/06/27 13:02:14 by vhuylebr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define X size->tab_counter
 # define Y size->arg_printed
 # define GET_CM tgetstr("cm", NULL)
-# define FD 2
+# define FD 3
 # define C_NONE         "\033[0m"
 # define C_BOLD         "\033[1m"
 # define C_BLACK        "\033[30m"
@@ -91,14 +91,16 @@ int					ft_unset_term(struct termios *term);
 ** move.c
 */
 
-t_clist				*ft_move_up(t_window *size, t_clist **list, t_clist *item);
+t_clist				*ft_move_up(t_window *size, t_clist **list,
+	t_clist *cursor);
 t_clist				*ft_move_down(t_window *size,
-		t_clist **list, t_clist *item);
+		t_clist **list, t_clist *cursor);
 t_clist				*ft_move_left(t_window *size,
-		t_clist **list, t_clist *item);
+		t_clist **list, t_clist *cursor);
 t_clist				*ft_move_right(t_window *size,
-		t_clist **list, t_clist *item);
-t_clist *go_to_letter(char c, t_window *size, t_clist **list, t_clist *item);
+		t_clist **list, t_clist *cursor);
+t_clist				*go_to_letter(char c, t_window *size,
+		t_clist **list, t_clist *cursor);
 
 /*
 ** key.c
@@ -116,9 +118,10 @@ int					is_del(char *buf);
 void				ft_refresh(t_window *size,
 		t_clist **list, struct termios *term);
 t_clist				*what_arrow(int drctn, t_window *size,
-		t_clist **list, t_clist *item);
-t_clist				*ft_select(t_window *size, t_clist **list, t_clist *item);
-t_clist				*ft_del_item(t_window *size, t_clist **list, t_clist *item);
+		t_clist **list, t_clist *cursor);
+t_clist				*ft_select(t_window *size, t_clist **list, t_clist *cursor);
+t_clist				*ft_del_cursor(t_window *size, t_clist **list,
+	t_clist *cursor);
 
 /*
 ** key2.c
@@ -172,10 +175,11 @@ void				ft_bzero(void *s, size_t len);
 ** listfunctions2.c
 */
 
-t_clist				*ft_del_lst_item(t_clist **list, t_clist *item);
-t_clist				*ft_del_item(t_window *size, t_clist **list, t_clist *item);
-t_clist				*list_end(t_clist *item);
-t_clist				*list_start(t_clist *item);
+t_clist				*ft_del_lst_cursor(t_clist **list, t_clist *cursor);
+t_clist				*ft_del_cursor(t_window *size, t_clist **list,
+	t_clist *cursor);
+t_clist				*list_end(t_clist *cursor);
+t_clist				*list_start(t_clist *cursor);
 
-t_clist				*ft_del_start_end(t_clist **old, t_clist *item);
+t_clist				*ft_del_start_end(t_clist **old, t_clist *cursor);
 #endif

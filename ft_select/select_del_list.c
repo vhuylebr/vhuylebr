@@ -21,43 +21,43 @@ void		ft_refresh(t_window *size, t_clist **list, struct termios *term)
 }
 
 t_clist		*what_arrow(int drctn, t_window *size,
-		t_clist **list, t_clist *item)
+		t_clist **list, t_clist *cursor)
 {
 	if (drctn == 1)
-		item = ft_move_up(size, list, item);
+		cursor = ft_move_up(size, list, cursor);
 	if (drctn == 2)
-		item = ft_move_down(size, list, item);
+		cursor = ft_move_down(size, list, cursor);
 	if (drctn == 3)
-		item = ft_move_right(size, list, item);
+		cursor = ft_move_right(size, list, cursor);
 	if (drctn == 4)
-		item = ft_move_left(size, list, item);
-	return (item);
+		cursor = ft_move_left(size, list, cursor);
+	return (cursor);
 }
 
-t_clist		*ft_select(t_window *size, t_clist **list, t_clist *item)
+t_clist		*ft_select(t_window *size, t_clist **list, t_clist *cursor)
 {
-	if (item->is_selected)
-		item->is_selected = 0;
+	if (cursor->is_selected)
+		cursor->is_selected = 0;
 	else
 	{
-		item->is_selected = 1;
-		item->is_cursor = 0;
-		if (item->next)
-			item = item->next;
+		cursor->is_selected = 1;
+		cursor->is_cursor = 0;
+		if (cursor->next)
+			cursor = cursor->next;
 		else
-			item = list_start(item);
-		item->is_cursor = 1;
+			cursor = list_start(cursor);
+		cursor->is_cursor = 1;
 	}
 	ft_get_size(size);
 	ft_print_all(size, list);
-	return (item);
+	return (cursor);
 }
 
-t_clist		*ft_del_item(t_window *size, t_clist **list, t_clist *item)
+t_clist		*ft_del_cursor(t_window *size, t_clist **list, t_clist *cursor)
 {
-	item = ft_del_lst_item(list, item);
-	item->is_cursor = 1;
+	cursor = ft_del_lst_cursor(list, cursor);
+	cursor->is_cursor = 1;
 	ft_get_size(size);
 	ft_print_all(size, list);
-	return (item);
+	return (cursor);
 }
