@@ -98,6 +98,7 @@ t_clist				*ft_move_left(t_window *size,
 		t_clist **list, t_clist *item);
 t_clist				*ft_move_right(t_window *size,
 		t_clist **list, t_clist *item);
+t_clist *go_to_letter(char c, t_window *size, t_clist **list, t_clist *item);
 
 /*
 ** key.c

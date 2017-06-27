@@ -61,28 +61,31 @@ void			ft_return(t_clist **list)
 int				input(t_window *size,
 		t_clist **list, struct termios *term)
 {
-	char		*read_char;
+	char		*str;
 	int			direction;
 	t_clist		*item;
 
 	item = *list;
-	read_char = ft_strnew(5);
-	while (!(is_return(read_char)))
+	str = ft_strnew(5);
+	while (!(is_return(str)))
 	{
-		ft_bzero(read_char, sizeof(read_char));
-		read(0, read_char, 5);
-		if ((direction = is_arrow(read_char)))
+		ft_bzero(str, sizeof(str));
+		read(0, str, 5);
+		if ((direction = is_arrow(str)))
 			item = what_arrow(direction, size, list, item);
-		if (is_space(read_char))
+		if (is_space(str))
 			item = ft_select(size, list, item);
-		if (is_bspace(read_char) || is_del(read_char))
+		if (is_bspace(str) || is_del(str))
 			item = ft_del_item(size, list, item);
-		if (is_esc(read_char) || item == NULL)
+		if (is_esc(str) || item == NULL)
 			return (0);
-		if (is_sig(read_char))
+		if (is_sig(str))
 			ft_refresh(size, list, term);
+		if ((str[0] <= 'Z' && str[0] >= 'A') ||
+		    (str[0] <= 'z' && str[0] >= 'a'))
+		  item = go_to_letter(str[0], size, list, item);
 	}
-	free(read_char);
+	free(str);
 	return (1);
 }
 
